@@ -1,9 +1,11 @@
 from mcp.server.fastmcp import FastMCP
 import requests
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 load_dotenv()
 
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 mcp = FastMCP("Math")
 
 @mcp.tool()
@@ -42,6 +44,15 @@ def get_weather(city):
     }
 
     return weather_info
+
+@mcp.tool()
+def web_search(query:str)->str:
+    response = client.responses.create(
+    model="gpt-4o",
+    tools=[{"type": "web_search_preview"}],
+    input=query
+    )
+    return response.output_text
 
 if __name__=="__main__":
     mcp.run(transport="stdio")
