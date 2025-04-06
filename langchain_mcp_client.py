@@ -9,7 +9,7 @@ model = ChatOpenAI(model="gpt-4o")
 
 server_params = StdioServerParameters(
     command="python",
-    # Make sure to update to the full absolute path to your math_server.py file
+    # Make sure to update to the full absolute path to your mcp server file
     args=["langchain_mcp_server.py"],
 )
 
